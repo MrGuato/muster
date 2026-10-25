@@ -30,21 +30,21 @@ end
 -- Spec names are mod-playerbots' default premade specs (Playerbots.PremadeSpecName.*).
 T.BUILTIN = {
     {
-        id = "dungeon", name = L["Dungeon (you deal damage)"],
+        id = "dungeon", name = L["Dungeon, you deal damage"],
         slots = build({
             { 1, "warrior", "prot pve", "tank" }, { 1, "priest", "holy pve", "heal" },
             { 1, "mage", "frost pve", "dps" }, { 1, "rogue", "combat pve", "dps" },
         }),
     },
     {
-        id = "dungeon-tank", name = L["Dungeon (you tank)"],
+        id = "dungeon-tank", name = L["Dungeon, you tank"],
         slots = build({
             { 1, "priest", "holy pve", "heal" }, { 1, "mage", "frost pve", "dps" },
             { 1, "rogue", "combat pve", "dps" }, { 1, "hunter", "mm pve", "dps" },
         }),
     },
     {
-        id = "dungeon-heal", name = L["Dungeon (you heal)"],
+        id = "dungeon-heal", name = L["Dungeon, you heal"],
         slots = build({
             { 1, "warrior", "prot pve", "tank" }, { 1, "mage", "frost pve", "dps" },
             { 1, "rogue", "combat pve", "dps" }, { 1, "hunter", "mm pve", "dps" },
@@ -71,7 +71,7 @@ T.BUILTIN = {
         }),
     },
     {
-        id = "raid40", name = L["Raid, 40 players (classic)"],
+        id = "raid40", name = L["Raid, 40 classic"],
         slots = build({
             { 3, "warrior", "prot pve", "tank" },
             { 5, "priest", "holy pve", "heal" }, { 3, "paladin", "holy pve", "heal" },
@@ -103,6 +103,15 @@ function T.Summary(tpl)
     local n = { tank = 0, heal = 0, dps = 0 }
     for _, s in ipairs(tpl.slots) do n[s.role] = (n[s.role] or 0) + 1 end
     return #tpl.slots, n.tank, n.heal, n.dps
+end
+
+-- "9 bots" / "2 tanks, 3 healers, 4 damage", with singular forms where needed.
+local function count(n, one, many) return (n == 1 and one or many):format(n) end
+
+function T.SummaryText(total, tanks, heals, dps)
+    return count(total, L.N_BOT, L.N_BOTS) .. "\n" .. table.concat({
+        count(tanks, L.N_TANK, L.N_TANKS), count(heals, L.N_HEALER, L.N_HEALERS), count(dps, L.N_DPS, L.N_DPS),
+    }, ", ")
 end
 
 -- The slots still to fill, given how many bots of each class (server class

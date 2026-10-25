@@ -8,6 +8,7 @@ Muster.L = L
 -- Key bindings (Key Bindings > AddOns > Muster)
 BINDING_HEADER_MUSTER = "Muster"
 BINDING_NAME_MUSTER_TOGGLE = "Show or hide Muster"
+BINDING_NAME_MUSTER_BAR = "Show or hide the command bar"
 BINDING_NAME_MUSTER_FOLLOW = "Order: follow me"
 BINDING_NAME_MUSTER_STAY = "Order: stay"
 BINDING_NAME_MUSTER_ATTACK = "Order: attack my target"
@@ -52,7 +53,13 @@ L.RAISE_DONE = "%s: %d bots requested."
 L.RAISE_STOPPED = "Stopped. %d of %d bots were requested."
 L.RAISE_NOTHING = "%s: your group already has everything this template needs."
 L.RAISE_FAILED = "The server refused a bot (%s). Stopping."
-L.TEMPLATE_SLOTS = "%d bots: %d tanks, %d healers, %d damage"
+L.N_BOT = "%d bot"
+L.N_BOTS = "%d bots"
+L.N_TANK = "%d tank"
+L.N_TANKS = "%d tanks"
+L.N_HEALER = "%d healer"
+L.N_HEALERS = "%d healers"
+L.N_DPS = "%d damage"
 
 -- Orders
 L.TARGET_ALL = "Everyone"
@@ -73,9 +80,30 @@ L.WHOLE_GROUP_TIP = "Toggle the strategy on every bot in your group instead of t
 L.STRATEGIES_FOR = "Strategies for %s"
 L.STRATEGIES_UNKNOWN = "Press \"Read from bot\" to load its current strategies."
 
+-- Command bar
+L.CAT_ORDERS = "Orders"
+L.CAT_BOTS = "Bots"
+L.CAT_RAISE = "Raise a group"
+L.CAT_COMBAT = "Combat strategies"
+L.CAT_NONCOMBAT = "Out-of-combat strategies"
+L.ADD_CLASS_TITLE = "Add a %s"
+L.TIP_REFRESH = "Ask the server for your bot roster."
+L.TIP_DISMISS = "Log out the bots in your group and take them out of it."
+L.TIP_STOP = "Stop raising after the current bot."
+L.TIP_SENDS = "Sends: %s"
+L.TIP_GOES_TO = "Goes to: %s (set on the Orders tab)"
+L.TIP_CLICK_RUN = "Left-click: run it"
+L.TIP_CLICK_TOGGLE = "Left-click: turn on. Shift-click: turn off"
+L.TIP_PIN = "Right-click: pin to the bar"
+L.TIP_UNPIN = "Right-click: unpin from the bar"
+L.PINS_FULL = "The bar holds %d pins. Right-click a pinned one to make room."
+L.BAR_HANDLE_TIP = "Click: show or hide the Muster window. Drag: move the bar."
+L.BAR_CATEGORY_TIP = "Click to show or hide its commands."
+
 -- Minimap
 L.MINIMAP_TIP_LEFT = "Left-click: show or hide"
 L.MINIMAP_TIP_RIGHT = "Right-click: refresh roster"
+L.MINIMAP_TIP_SHIFT = "Shift-click: show or hide the command bar"
 L.MINIMAP_TIP_DRAG = "Drag: move this button"
 
 -- Slash command help
@@ -88,7 +116,8 @@ L.HELP = {
     "/muster raise <template> - raise a group from a template (dungeon, dungeon-tank, dungeon-heal, raid10, raid25, raid40)",
     "/muster stop - stop raising",
     "/muster order <order> [tank|heal|dps|melee|ranged] - give your group an order (follow, stay, attack, flee, summon, ...)",
-    "/muster minimap - show or hide the minimap button",
+    "/muster bar - show or hide the command bar",
+    "/muster minimap - show or hide the minimap button (/muster minimap reset puts it back in place)",
 }
 L.UNKNOWN_COMMAND = "Unknown command \"%s\". Try /muster help."
 L.UNKNOWN_TEMPLATE = "No template called \"%s\". Try: %s"

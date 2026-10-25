@@ -19,7 +19,7 @@ function M:CreateUI()
     if self.frame then return end
 
     local f = CreateFrame("Frame", "MusterFrame", UIParent)
-    f:SetWidth(390)
+    f:SetWidth(404)
     f:SetHeight(460)
     local pos = M.db.frame
     if pos and pos.point then
@@ -33,6 +33,11 @@ function M:CreateUI()
         tile = true, tileSize = 32, edgeSize = 32,
         insets = { left = 11, right = 12, top = 12, bottom = 11 },
     })
+    -- The dialog background alone lets the world show through the lists.
+    local shade = f:CreateTexture(nil, "BACKGROUND")
+    shade:SetTexture(0.03, 0.03, 0.05, 0.82)
+    shade:SetPoint("TOPLEFT", 11, -12)
+    shade:SetPoint("BOTTOMRIGHT", -12, 11)
     f:SetFrameStrata("DIALOG")
     f:SetToplevel(true)
     f:SetClampedToScreen(true)

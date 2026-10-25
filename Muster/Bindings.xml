@@ -2,6 +2,9 @@
 	<Binding name="MUSTER_TOGGLE" header="MUSTER">
 		Muster:Toggle()
 	</Binding>
+	<Binding name="MUSTER_BAR">
+		Muster:ToggleBar()
+	</Binding>
 	<Binding name="MUSTER_FOLLOW">
 		Muster:GiveOrder("follow")
 	</Binding>

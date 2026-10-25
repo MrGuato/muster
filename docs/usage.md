@@ -9,6 +9,8 @@ Open the window with `/muster`, a click on the minimap banner, or the key you bi
 
 ## Roster
 
+![Roster tab]({{ '/assets/screenshots/roster.png' | relative_url }}){: width="440" }
+
 The list shows every bot you can log in: your own account's other characters, plus any random bots in your group. Each row has the bot's name in its class colour, its class, and whether it's **Online** and **In group**.
 
 - **Refresh** asks the server for the list (`.playerbot bot list`). Muster hides the server's raw reply in chat while it's waiting for it.
@@ -22,16 +24,18 @@ The bot you select here is also the one the Orders and Strategies tabs act on wh
 
 ## Muster
 
+![Muster tab with the 10-player raid selected]({{ '/assets/screenshots/muster.png' | relative_url }}){: width="440" }
+
 Pick a template on the left; the right side shows how many tanks, healers and damage dealers it has and which class and spec fills each slot.
 
 | Template | Bots | Made for |
 | --- | --- | --- |
-| Dungeon (you deal damage) | 4 | a tank, a healer and two damage dealers |
-| Dungeon (you tank) | 4 | a healer and three damage dealers |
-| Dungeon (you heal) | 4 | a tank and three damage dealers |
+| Dungeon, you deal damage | 4 | a tank, a healer and two damage dealers |
+| Dungeon, you tank | 4 | a healer and three damage dealers |
+| Dungeon, you heal | 4 | a tank and three damage dealers |
 | Raid, 10 players | 9 | 2 tanks, 3 healers, 4 damage |
 | Raid, 25 players | 24 | 3 tanks, 6 healers, 15 damage |
-| Raid, 40 players (classic) | 39 | 3 tanks, 11 healers, 25 damage |
+| Raid, 40 classic | 39 | 3 tanks, 11 healers, 25 damage |
 
 Press **Raise**. Muster adds one bot every 1.2 seconds and shows its progress under the buttons. Your party turns into a raid by itself when the sixth member joins. **Stop** stops after the current bot When the raise is done, Muster refreshes the roster so the new bots show up there.
 
@@ -42,9 +46,13 @@ Two options change how a raise works:
 
 If the server refuses a bot (no free characters of that class, too many bots, or no permission), Muster stops and prints the server's reason. See [Server settings]({{ '/server' | relative_url }}).
 
-**Dismiss group bots** refreshes the roster, then logs out every member of your group that it lists as one of your bots. Real players are never removed.
+![Raising a dungeon group]({{ '/assets/screenshots/raise.gif' | relative_url }}){: width="560" }
+
+**Dismiss group bots** refreshes the roster, then logs out every member of your group that it lists as one of your bots, and, if you lead the group, takes them out of it. Real players are never removed.
 
 ## Orders
+
+![Orders tab]({{ '/assets/screenshots/orders.png' | relative_url }}){: width="440" }
 
 Choose who listens at the top:
 
@@ -52,6 +60,8 @@ Choose who listens at the top:
 - **Selected bot** is whispered to the bot selected on the Roster tab, or to your target.
 
 Then click an order. Hover over a button to see what it does and the exact words it sends.
+
+![The group following after a Follow order]({{ '/assets/screenshots/follow.gif' | relative_url }}){: width="520" }
 
 | Order | Sends | What the bots do |
 | --- | --- | --- |
@@ -72,6 +82,8 @@ Then click an order. Hover over a button to see what it does and the exact words
 
 ## Strategies
 
+![Strategies tab after reading a bot]({{ '/assets/screenshots/strategies.png' | relative_url }}){: width="440" }
+
 A bot runs two sets of strategies: one **in combat** and one **out of combat**. This tab shows the common ones as checkboxes; hover over one to see what it does.
 
 1. Select a bot on the Roster tab, or target it.
@@ -80,6 +92,19 @@ A bot runs two sets of strategies: one **in combat** and one **out of combat**. 
 
 Tick **Send to the whole group** to switch a strategy on every bot in your group at once. Muster can't read a whole group's state back, so the boxes start empty in this mode; each click is sent as it is.
 
+## Command bar
+
+The command bar puts every command one click away without opening the window. It sits above your action bars at first; drag the banner at its left end to move it.
+
+- **Categories**: Orders, Bots, Raise a group, Combat strategies and Out-of-combat strategies. Click one to open a column of its commands above it; click it again to close it.
+- **Commands**: hover over an icon for what it does and the exact line it sends. Left-click runs it. For strategies, left-click turns one on and shift-click turns it off.
+- **Pins**: right-click any command to pin it to the bar itself, up to ten. Right-click a pinned one to unpin it. Follow, stay, attack and flee start pinned.
+- **Who listens**: orders and strategy changes go to whoever the Orders tab is set to: everyone, one role, or the selected bot. Each tooltip says who.
+
+Show or hide it with `/muster bar`, its key binding, or shift-click on the minimap button.
+
 ## Minimap button
 
-Left-click opens or closes the window, right-click refreshes the roster, and dragging moves it around the minimap. `/muster minimap` hides or shows it.
+![Minimap button tooltip]({{ '/assets/screenshots/minimap.png' | relative_url }}){: width="370" }
+
+Left-click opens or closes the window, shift-click shows or hides the command bar, right-click refreshes the roster, and dragging moves it around the minimap. `/muster minimap` hides or shows it; `/muster minimap reset` puts it back in its starting place if another addon's button covers it.

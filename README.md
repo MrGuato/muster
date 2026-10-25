@@ -36,6 +36,16 @@
 
 Press **Refresh** on the Roster tab to see your bots, or go to the Muster tab, pick **Dungeon** and press **Raise**.
 
+<p align="center">
+  <img src="docs/assets/screenshots/raise.gif" width="640" alt="Raising a dungeon group: four bots log in and join the party one after another">
+</p>
+
+| Roster | Muster |
+| --- | --- |
+| <img src="docs/assets/screenshots/roster.png" width="400" alt="Roster tab: bots in class colours with online and in-group status"> | <img src="docs/assets/screenshots/muster.png" width="400" alt="Muster tab: group templates with the 10-player raid selected"> |
+| **Orders** | **Strategies** |
+| <img src="docs/assets/screenshots/orders.png" width="400" alt="Orders tab: who listens, and fourteen order buttons"> | <img src="docs/assets/screenshots/strategies.png" width="400" alt="Strategies tab: in-combat and out-of-combat checkboxes read from a bot"> |
+
 ## What it does
 
 | Tab | What you get |
@@ -45,7 +55,9 @@ Press **Refresh** on the Roster tab to see your bots, or go to the Muster tab, p
 | **Orders** | Follow, stay, attack, tank in, pull, flee, summon, release, revive, rebuff, eat/drink, max DPS, save mana, grind. Send them to everyone, to one role (tanks, healers, damage, melee, ranged), or to a single bot. |
 | **Strategies** | Read a bot's in-combat and out-of-combat strategies and switch them with checkboxes: avoid AoE, threat, behind, save mana, potions, loot, gather, follow, grind and more, each with a tooltip saying what it does. Or switch one for the whole group. |
 
-Also: a minimap button (left-click opens Muster, right-click refreshes the roster), key bindings for the window and the five most used orders, and a `/muster` slash command for all of it.
+**Command bar.** Every command as an icon, without opening the window: a small bar of category icons (orders, bots, raise, combat and out-of-combat strategies), each opening a column of commands above it. Every icon's tooltip says what it does and the exact line it sends. Right-click any command to pin it to the bar as a one-click shortcut; follow, stay, attack and flee are pinned to start with.
+
+Also: a minimap button (left-click opens Muster, shift-click shows or hides the bar, right-click refreshes the roster), key bindings for the window, the bar and the five most used orders, and a `/muster` slash command for all of it.
 
 ## Slash commands
 
@@ -58,7 +70,9 @@ Also: a minimap button (left-click opens Muster, right-click refreshes the roste
 /muster raise raid40        raise a group from a template
 /muster stop                stop raising
 /muster order follow tank   give an order, optionally to one role
+/muster bar                 show or hide the command bar
 /muster minimap             show or hide the minimap button
+/muster minimap reset       put the minimap button back in its starting place
 ```
 
 Templates: `dungeon`, `dungeon-tank`, `dungeon-heal`, `raid10`, `raid25`, `raid40`. Full reference in the [docs](https://mrguato.github.io/muster/commands).

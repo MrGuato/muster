@@ -49,6 +49,8 @@ function Frame:GetChecked() return self._checked end -- 3.3.5 returns 1 or nil
 function Frame:SetPoint(...) self._point = { ... } end
 function Frame:GetPoint() return unpack(self._point or { "CENTER", nil, "CENTER", 0, 0 }) end
 function Frame:GetCenter() return 0, 0 end
+function Frame:IsOwned(owner) return self._owner == owner end
+function Frame:SetOwner(owner) self._owner = owner end
 function Frame:GetEffectiveScale() return 1 end
 function Frame:Click(button)
     local fn = self._scripts.OnClick
@@ -83,7 +85,13 @@ function wow.install()
     end
     GetTime = function() return wow.clock end
     GetCursorPosition = function() return 0, 0 end
-    IsShiftKeyDown = function() return false end
+    IsShiftKeyDown = function() return wow.shift == true end
+    IsPartyLeader = function() return wow.leader == true end
+    IsRaidLeader = function() return wow.leader == true end
+    UninviteUnit = function(name)
+        wow.uninvited = wow.uninvited or {}
+        table.insert(wow.uninvited, name)
+    end
     GetNumRaidMembers = function() return wow.group.kind == "raid" and #wow.group.members + 1 or 0 end
     GetNumPartyMembers = function() return wow.group.kind and #wow.group.members or 0 end
     local function member(unit)
@@ -156,7 +164,8 @@ function wow.advance(seconds)
 end
 
 function wow.reset()
-    wow.sent, wow.printed = {}, {}
+    wow.sent, wow.printed, wow.uninvited = {}, {}, {}
+    wow.shift, wow.leader = false, false
 end
 
 function wow.setGroup(kind, members)

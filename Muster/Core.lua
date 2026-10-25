@@ -4,10 +4,14 @@ Muster = Muster or {}
 local M = Muster
 local L = M.L
 
-M.VERSION = "0.1.0"
+M.VERSION = "0.2.0"
+
+-- 148 degrees: clear of the minimap buttons other bot addons start at.
+M.MINIMAP_ANGLE = 148
 
 M.DEFAULTS = {
-    minimap = { angle = 200, hide = false },
+    minimap = { angle = M.MINIMAP_ANGLE or 148, hide = false },
+    bar = { hide = false },
     frame = {},
     hideRosterMessage = true, -- keep "Bot roster: ..." out of the chat frame when Muster asked for it
     addDelay = 1.2,           -- seconds between bot logins while raising a template
@@ -93,6 +97,10 @@ events:SetScript("OnEvent", function(_, event, ...)
         if ... == "Muster" then
             MusterDB = M.CopyDefaults(M.DEFAULTS, MusterDB or {})
             M.db = MusterDB
+            -- Not in DEFAULTS: CopyDefaults would refill pins the player removed.
+            if M.db.pinned == nil then
+                M.db.pinned = { "order:follow", "order:stay", "order:attack", "order:flee" }
+            end
             events:UnregisterEvent("ADDON_LOADED")
         end
     elseif event == "PLAYER_LOGIN" then
@@ -159,13 +167,21 @@ function M:HandleSlash(input)
     elseif cmd == "order" then
         local key, filter = rest:lower():match("^(%S+)%s*(%S*)$")
         if key and M.Commands.ORDER_BY_KEY[key] then
-            M:Order(key, filter ~= "" and filter or nil)
+            if filter ~= "" then M:Order(key, filter) else M:GiveOrder(key) end
         else
             M:Print(L.UNKNOWN_ORDER, key or "", keysOf(M.Commands.ORDER_BY_KEY))
         end
     elseif cmd == "minimap" then
-        M.db.minimap.hide = not M.db.minimap.hide
+        if rest:lower() == "reset" then
+            M.db.minimap.angle = M.MINIMAP_ANGLE
+            M.db.minimap.hide = false
+            if M.PlaceMinimapButton then M:PlaceMinimapButton() end
+        else
+            M.db.minimap.hide = not M.db.minimap.hide
+        end
         if M.UpdateMinimapButton then M:UpdateMinimapButton() end
+    elseif cmd == "bar" then
+        if M.ToggleBar then M:ToggleBar() end
     else
         M:Print(L.UNKNOWN_COMMAND, input)
     end

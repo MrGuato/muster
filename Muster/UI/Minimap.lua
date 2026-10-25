@@ -51,7 +51,13 @@ function M:CreateMinimapButton()
     border:SetPoint("TOPLEFT")
 
     b:SetScript("OnClick", function(_, button)
-        if button == "RightButton" then M.Roster:Refresh() else M:Toggle() end
+        if button == "RightButton" then
+            M.Roster:Refresh()
+        elseif IsShiftKeyDown() then
+            M:ToggleBar()
+        else
+            M:Toggle()
+        end
     end)
     b:SetScript("OnDragStart", function(btn) btn:SetScript("OnUpdate", dragUpdate) end)
     b:SetScript("OnDragStop", function(btn) btn:SetScript("OnUpdate", nil) end)
@@ -60,6 +66,7 @@ function M:CreateMinimapButton()
         GameTooltip:SetText(L.TITLE, 1, 1, 1)
         GameTooltip:AddLine(L.MINIMAP_TIP_LEFT)
         GameTooltip:AddLine(L.MINIMAP_TIP_RIGHT)
+        GameTooltip:AddLine(L.MINIMAP_TIP_SHIFT)
         GameTooltip:AddLine(L.MINIMAP_TIP_DRAG)
         GameTooltip:Show()
     end)
@@ -68,6 +75,12 @@ function M:CreateMinimapButton()
     self.minimapButton = b
     place(b)
     self:UpdateMinimapButton()
+end
+
+function M:PlaceMinimapButton()
+    if not self.minimapButton then return end
+    self.minimapButton:ClearAllPoints()
+    place(self.minimapButton)
 end
 
 function M:UpdateMinimapButton()

@@ -16,20 +16,6 @@ local LABELS = {
     melee = L.TARGET_MELEE, ranged = L.TARGET_RANGED, selected = L.TARGET_SELECTED,
 }
 
--- The bindings and the slash command come through here too.
-function M:GiveOrder(key)
-    local target = M.db.orderTarget or "all"
-    if target == "selected" then
-        local bot = R:FocusBot()
-        if not bot then
-            M:Print(L.NO_BOT_SELECTED)
-            return
-        end
-        return M:Order(key, nil, bot)
-    end
-    return M:Order(key, target)
-end
-
 function P:Create(panel)
     self.panel = panel
     self.targets = {}

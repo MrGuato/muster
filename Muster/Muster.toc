@@ -2,7 +2,7 @@
 ## Title: Muster
 ## Notes: Raise, command and tune your mod-playerbots bots from one panel.
 ## Author: MrGuato
-## Version: 0.1.0
+## Version: 0.2.0
 ## SavedVariables: MusterDB
 ## X-Website: https://github.com/MrGuato/muster
 ## X-License: MIT
@@ -13,6 +13,7 @@ Commands.lua
 Roster.lua
 Templates.lua
 Strategies.lua
+Actions.lua
 UI\Widgets.lua
 UI\MainFrame.lua
 UI\RosterPanel.lua
@@ -20,3 +21,4 @@ UI\MusterPanel.lua
 UI\OrdersPanel.lua
 UI\StrategiesPanel.lua
 UI\Minimap.lua
+UI\CommandBar.lua
