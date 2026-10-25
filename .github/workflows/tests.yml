@@ -1,0 +1,22 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Tests (Lua 5.1)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install Lua 5.1 (the version WoW 3.3.5a embeds)
+        run: sudo apt-get update && sudo apt-get install -y lua5.1
+      - name: Run the test suite
+        run: lua5.1 tests/run.lua

@@ -1,0 +1,8 @@
+dist/
+notes.md
+*.sarif
+.DS_Store
+# Jekyll, when previewing the docs locally
+docs/_site/
+docs/.jekyll-cache/
+docs/Gemfile.lock

@@ -1,0 +1,20 @@
+<Bindings>
+	<Binding name="MUSTER_TOGGLE" header="MUSTER">
+		Muster:Toggle()
+	</Binding>
+	<Binding name="MUSTER_FOLLOW">
+		Muster:GiveOrder("follow")
+	</Binding>
+	<Binding name="MUSTER_STAY">
+		Muster:GiveOrder("stay")
+	</Binding>
+	<Binding name="MUSTER_ATTACK">
+		Muster:GiveOrder("attack")
+	</Binding>
+	<Binding name="MUSTER_FLEE">
+		Muster:GiveOrder("flee")
+	</Binding>
+	<Binding name="MUSTER_SUMMON">
+		Muster:GiveOrder("summon")
+	</Binding>
+</Bindings>

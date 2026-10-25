@@ -1,0 +1,30 @@
+name: Bug report
+description: Something in Muster doesn't work the way the docs say.
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Muster version
+      description: 'The chat frame says it at login, for example "Muster: v0.1.0 loaded".'
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: server
+    attributes:
+      label: Server
+      description: AzerothCore / mod-playerbots version or commit, if you know it. "Someone else's server" is fine too.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you clicked or typed, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: chat
+    attributes:
+      label: What chat said
+      description: Any Muster lines, server replies or Lua errors. Turn on Lua errors with /console scriptErrors 1.
+      render: text

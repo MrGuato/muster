@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://mrguato.github.io/muster/
+    about: Installation, every tab, commands, server settings and troubleshooting.
+  - name: Security problem
+    url: https://github.com/MrGuato/muster/security/advisories/new
+    about: Please report security problems privately.
