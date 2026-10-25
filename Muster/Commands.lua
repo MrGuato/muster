@@ -133,6 +133,38 @@ function M:TellGroup(text, filter)
     return true
 end
 
+-- Log bots out, and take the ones in your group out of it too: a logged-out
+-- bot otherwise stays in the party as an offline member. Only the leader can
+-- remove members, so others just log the bots out.
+function M:RemoveBots(names)
+    if #names == 0 then return end
+    M:SendServerCommand(C.Remove(names))
+    local leader = (GetNumRaidMembers() > 0 and IsRaidLeader()) or (GetNumRaidMembers() == 0 and IsPartyLeader())
+    if not leader then return end
+    local inGroup = {}
+    for _, m in ipairs(M.Roster.GroupMembers()) do inGroup[m.name] = true end
+    M:After(1, function()
+        for _, name in ipairs(names) do
+            if inGroup[name] then UninviteUnit(name) end
+        end
+    end)
+end
+
+-- Give an order to whoever the Orders tab is set to: everyone, a role, or the
+-- selected bot. Key bindings, the slash command and the command bar use this.
+function M:GiveOrder(key)
+    local target = M.db.orderTarget or "all"
+    if target == "selected" then
+        local bot = M.Roster:FocusBot()
+        if not bot then
+            M:Print(L.NO_BOT_SELECTED)
+            return false
+        end
+        return M:Order(key, nil, bot)
+    end
+    return M:Order(key, target)
+end
+
 -- Give an order. With `botName` it is whispered to that bot alone.
 function M:Order(key, filter, botName)
     local order = C.ORDER_BY_KEY[key]

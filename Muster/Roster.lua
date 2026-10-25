@@ -63,7 +63,7 @@ function R:RemoveGroupBots()
         if bot and bot.online then table.insert(names, m.name) end
     end
     if #names > 0 then
-        M:SendServerCommand(C.Remove(names))
+        M:RemoveBots(names)
     else
         M:Print(M.L.NO_GROUP_BOTS)
     end

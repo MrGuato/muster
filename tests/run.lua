@@ -38,7 +38,7 @@ local C, R, T, S = M.Commands, M.Roster, M.Templates, M.Strategies
 
 ---------------------------------------------------------------------------
 test("loads and says hello", function()
-    eq(M.VERSION, "0.1.0", "version")
+    eq(M.VERSION, "0.2.0", "version")
     assert(MusterDB and M.db == MusterDB, "saved variables set up")
     eq(M.db.addDelay, 1.2, "default add delay")
 end)
@@ -294,10 +294,22 @@ end)
 test("dismiss refreshes the roster, then removes only your bots", function()
     wow.setGroup("party", { { name = "Brakk", class = "WARRIOR" }, { name = "Realplayer", class = "MAGE" } })
     R.bots = {}
+    wow.leader = true
     R:DismissGroupBots()
     eq(lastSent().msg, ".playerbot bot list", "refresh first")
     wow.fire("CHAT_MSG_SYSTEM", "Bot roster: +Brakk Warrior, -Mira Priest")
     eq(lastSent().msg, ".playerbot bot remove Brakk", "only the bot")
+    wow.advance(1.2)
+    eq(#wow.uninvited, 1, "taken out of the group too"); eq(wow.uninvited[1], "Brakk")
+end)
+
+test("only the leader takes logged-out bots out of the group", function()
+    wow.setGroup("party", { { name = "Brakk", class = "WARRIOR" } })
+    wow.leader = false
+    M:RemoveBots({ "Brakk" })
+    eq(lastSent().msg, ".playerbot bot remove Brakk")
+    wow.advance(1.2)
+    eq(#wow.uninvited, 0, "not the leader, so no kick")
 end)
 
 test("slash commands", function()
@@ -351,6 +363,92 @@ test("the window builds, switches tabs and clicks through", function()
     eq(lastSent().msg, ".playerbot bot list")
     M:Toggle()
     eq(MusterFrame:IsShown(), false, "toggle hides")
+end)
+
+---------------------------------------------------------------------------
+test("template summary uses singular forms and fits two lines", function()
+    eq(T.SummaryText(4, 1, 1, 2), "4 bots\n1 tank, 1 healer, 2 damage")
+    eq(T.SummaryText(1, 0, 0, 1), "1 bot\n0 tanks, 0 healers, 1 damage")
+    for _, tpl in ipairs(T:All()) do
+        assert(#tpl.name <= 26, tpl.name .. " is too long for its button")
+    end
+end)
+
+test("minimap button starts clear of other addons and can be reset", function()
+    eq(M.DEFAULTS.minimap.angle, 148, "default angle")
+    M.db.minimap.angle = 10
+    SlashCmdList.MUSTER("minimap reset")
+    eq(M.db.minimap.angle, 148, "reset")
+end)
+
+test("every command bar icon exists in the 3.3.5 client", function()
+    local known = {}
+    for line in io.lines("tests/fixtures/icons-335.txt") do known[line] = true end
+    local function check(path, what)
+        if path:find("^Interface\\Icons\\") then
+            local name = path:match("([^\\]+)$"):lower()
+            assert(known[name], what .. ": no icon called " .. name .. " in the client")
+        end
+    end
+    local ids = {}
+    for _, cat in ipairs(M.Actions.categories) do check(cat.icon, "category " .. cat.id) end
+    for _, a in ipairs(M.Actions.list) do
+        assert(not ids[a.id], "duplicate action id " .. a.id)
+        ids[a.id] = true
+        assert(a.icon and a.title and a.run, a.id .. " is missing a field")
+        check(a.icon, a.id)
+    end
+end)
+
+test("command bar: open a category, run, pin and unpin", function()
+    local B = M.CommandBar
+    assert(MusterCommandBar, "the bar exists")
+    eq(#M.db.pinned, 4, "four default pins")
+    eq(M.db.pinned[1], "order:follow")
+
+    wow.setGroup("party", { { name = "Brakk", class = "WARRIOR" } })
+    M.db.orderTarget = "all"
+    B.cat_orders:Click()
+    eq(B.columns.orders:IsShown(), true, "orders column open")
+    B.cat_co:Click()
+    eq(B.columns.orders:IsShown(), false, "only one column at a time")
+    eq(B.columns.co:IsShown(), true)
+
+    -- Run a strategy from the column: left-click on, shift-click off.
+    local A = M.Actions
+    A.byId["strategy:co:avoid aoe"].run(false)
+    eq(lastSent().msg, "co +avoid aoe"); eq(lastSent().channel, "PARTY")
+    A.byId["strategy:co:avoid aoe"].run(true)
+    eq(lastSent().msg, "co -avoid aoe")
+
+    -- Pin from a column with a right-click, then unpin.
+    eq(A:TogglePin("order:summon"), true)
+    eq(#M.db.pinned, 5)
+    eq(B.pinButtons[5].action.id, "order:summon", "pinned button on the bar")
+    B.pinButtons[5]:Click("LeftButton")
+    eq(lastSent().msg, "summon")
+    B.pinButtons[5]:Click("RightButton")
+    eq(#M.db.pinned, 4, "unpinned")
+    for i = 1, 10 do A:TogglePin(A.list[i + 4].id) end
+    eq(#M.db.pinned, A.MAX_PINS, "pins stop at the maximum")
+    assert(printedMatch("holds 10 pins"), "says the bar is full")
+
+    SlashCmdList.MUSTER("bar")
+    eq(MusterCommandBar:IsShown(), false, "/muster bar hides it")
+    SlashCmdList.MUSTER("bar")
+    eq(MusterCommandBar:IsShown(), true)
+end)
+
+test("strategies follow the Orders tab target", function()
+    R.selected = { Aldric = true }
+    M.db.orderTarget = "selected"
+    S:SetForTarget("nc", "loot", true)
+    eq(lastSent().msg, "nc +loot"); eq(lastSent().target, "Aldric")
+    M.db.orderTarget = "heal"
+    wow.setGroup("party", { { name = "Mira", class = "PRIEST" } })
+    S:SetForTarget("co", "save mana", true)
+    eq(lastSent().msg, "@heal co +save mana")
+    M.db.orderTarget = "all"
 end)
 
 ---------------------------------------------------------------------------

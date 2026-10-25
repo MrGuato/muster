@@ -38,7 +38,7 @@ function P:Create(panel)
     remove:SetPoint("LEFT", add, "RIGHT", 4, 0)
     remove:SetScript("OnClick", function()
         local names = R:SelectedNames()
-        if #names > 0 then M:SendServerCommand(C.Remove(names)) end
+        M:RemoveBots(names)
     end)
 
     self.count = W.Label(panel, "", "GameFontHighlightSmall")
@@ -52,6 +52,14 @@ function P:Create(panel)
         FauxScrollFrame_OnVerticalScroll(s, offset, ROW_HEIGHT, function() P:Refresh() end)
     end)
     self.scroll = scroll
+    -- FauxScrollFrameTemplate draws no track behind its bar; add one.
+    local bar = _G["MusterRosterScrollScrollBar"]
+    if bar then
+        local track = scroll:CreateTexture(nil, "BACKGROUND")
+        track:SetTexture(0, 0, 0, 0.45)
+        track:SetPoint("TOPLEFT", bar, "TOPLEFT", -1, 17)
+        track:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", 1, -17)
+    end
 
     self.rows = {}
     for i = 1, ROWS do

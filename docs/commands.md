@@ -21,7 +21,9 @@ nav_order: 4
 | `/muster stop` | stop raising |
 | `/muster order follow` | give an order to everyone |
 | `/muster order attack tank` | give an order to one role: `tank`, `heal`, `dps`, `melee`, `ranged` |
+| `/muster bar` | show or hide the command bar |
 | `/muster minimap` | show or hide the minimap button |
+| `/muster minimap reset` | put the minimap button back in its starting place |
 
 Order names for `/muster order`: `follow`, `stay`, `attack`, `tank`, `pull`, `flee`, `summon`, `release`, `revive`, `rebuff`, `drink`, `maxdps`, `savemana`, `grind`.
 
@@ -32,6 +34,7 @@ You can put these in macros, for example `/muster order follow` on an action bar
 Under **Key Bindings → AddOns → Muster**:
 
 - Show or hide Muster
+- Show or hide the command bar
 - Order: follow me
 - Order: stay
 - Order: attack my target
@@ -54,6 +57,7 @@ Muster has no server component. Every action is a line of chat that mod-playerbo
 | Order to everyone | `follow` | party or raid chat |
 | Order to a role | `@tank follow` | party or raid chat |
 | Order to one bot | `follow` | whisper to that bot |
+| Leave the group (Dismiss, Remove, when you lead) | none: Muster removes the logged-out bots from your group | client |
 | Read strategies | `co ?`, then `nc ?` | whisper to that bot |
 | Toggle a strategy | `co +avoid aoe`, `nc -loot` | whisper, or party/raid chat for the whole group |
 

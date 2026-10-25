@@ -88,6 +88,21 @@ function S:Get(bot, which)
     return self.state[bot] and self.state[bot][which]
 end
 
+-- Turn a strategy on or off for whoever the Orders tab is set to: the
+-- selected bot, everyone, or one role.
+function S:SetForTarget(which, name, on)
+    local target = M.db.orderTarget or "all"
+    if target == "selected" then
+        local bot = M.Roster:FocusBot()
+        if not bot then
+            M:Print(M.L.NO_BOT_SELECTED)
+            return false
+        end
+        return self:Set(bot, which, name, on)
+    end
+    return M:TellGroup(C.Strategy(which, on, name), target)
+end
+
 -- Turn a strategy on or off for one bot, or for the whole group.
 function S:Set(bot, which, name, on)
     local text = C.Strategy(which, on, name)

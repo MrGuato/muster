@@ -18,7 +18,7 @@ local function describe(tpl)
         if not counts[key] then table.insert(order, key) end
         counts[key] = (counts[key] or 0) + 1
     end
-    local lines = { L.TEMPLATE_SLOTS:format(total, tanks, heals, dps) }
+    local lines = { T.SummaryText(total, tanks, heals, dps), "" }
     for _, key in ipairs(order) do
         table.insert(lines, ("%dx %s"):format(counts[key], key))
     end
@@ -32,7 +32,7 @@ function P:Create(panel)
 
     local prev
     for _, tpl in ipairs(T:All()) do
-        local b = W.Button(panel, tpl.name, 170, 22)
+        local b = W.Button(panel, tpl.name, 176, 22)
         if prev then
             b:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", 0, -3)
         else
@@ -47,8 +47,8 @@ function P:Create(panel)
     end
 
     self.detail = W.Label(panel, "", "GameFontHighlightSmall")
-    self.detail:SetPoint("TOPLEFT", 180, -2)
-    self.detail:SetWidth(170)
+    self.detail:SetPoint("TOPLEFT", 186, -2)
+    self.detail:SetWidth(178)
     self.detail:SetJustifyV("TOP")
 
     local fill = W.Check(panel, L.FILL_MISSING, L.FILL_MISSING_TIP)
